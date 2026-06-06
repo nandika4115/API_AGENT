@@ -242,7 +242,7 @@ Expected results against crAPI:
 - **6 CRITICAL** — BOLA/IDOR (3) + JWT None Algorithm (3)
 - **3 HIGH** — Rate Limit Bypass (1) + SSRF (2)
 - **3 MEDIUM** — Parameter Tampering + Excessive Data Exposure + Info Leak
-- **60 PASS**
+- **48 PASS**
 
 ---
 
