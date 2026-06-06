@@ -83,10 +83,12 @@
 <header>
   <h1>🛡 API Security Monitor</h1>
   <div id="status-bar">
-    <span id="live-dot"></span>
-    Target: <span id="target-name">—</span> &nbsp;|&nbsp;
-    Last scan: <span id="last-scan">—</span>
-  </div>
+  <span id="live-dot"></span>
+  Target: <span id="target-name">—</span> &nbsp;|&nbsp;
+  Last scan: <span id="last-scan">—</span> &nbsp;|&nbsp;
+  Endpoints: <span id="endpoint-count">—</span> &nbsp;|&nbsp;
+  Discovery: <span id="discovery-mode">—</span>
+</div>
 </header>
 
 <div class="summary">
@@ -98,7 +100,16 @@
 </div>
 
 <div class="controls">
-  <button id="scan-btn" onclick="triggerScan()">⚡ Scan Now</button>
+  <div style="display:flex; gap:8px; align-items:center; flex:1;">
+    <input
+      id="url-input"
+      type="text"
+      placeholder="Enter target URL (e.g. http://localhost:8888) or leave blank for default"
+      style="flex:1; background:#1a1d27; border:1px solid #2a2d3e; color:#e0e0e0;
+             padding:8px 14px; border-radius:6px; font-size:0.85rem; outline:none;"
+    />
+    <button id="scan-btn" onclick="triggerScan()">⚡ Scan Now</button>
+  </div>
   <div class="filter-bar">
     <button class="filter-btn active" onclick="setFilter('ALL', this)">All</button>
     <button class="filter-btn" onclick="setFilter('CRITICAL', this)">Critical</button>
@@ -107,12 +118,9 @@
     <button class="filter-btn" onclick="setFilter('PASS', this)">Passed</button>
   </div>
   <div style="margin-left:auto; display:flex; gap:8px;">
-  <button onclick="exportJSON()" style="background:#2a2d3e; border:1px solid #444;">
-    ⬇ JSON
-  </button>
-  <button onclick="exportPDF()" style="background:#2a2d3e; border:1px solid #444;">
-    ⬇ PDF
-  </button>
+    <button onclick="exportJSON()" style="background:#2a2d3e; border:1px solid #444;">⬇ JSON</button>
+    <button onclick="exportPDF()" style="background:#2a2d3e; border:1px solid #444;">⬇ PDF</button>
+  </div>
 </div>
 </div>
 
@@ -151,6 +159,8 @@
     document.getElementById("cnt-high").textContent = counts.HIGH;
     document.getElementById("cnt-medium").textContent = counts.MEDIUM;
     document.getElementById("cnt-pass").textContent = counts.PASS;
+    document.getElementById("endpoint-count").textContent = data.endpoint_count || "—";
+    document.getElementById("discovery-mode").textContent = data.discovery_mode || "—";
 
     renderTable();
   }
@@ -185,10 +195,12 @@
 
   function triggerScan() {
     const btn = document.getElementById("scan-btn");
+    const url = document.getElementById("url-input").value.trim();
     btn.textContent = "Scanning...";
     btn.classList.add("scanning");
     btn.disabled = true;
-    fetch("/api/scan").then(async (res) => {
+    const endpoint = url ? `/api/scan?url=${encodeURIComponent(url)}` : "/api/scan";
+    fetch(endpoint).then(async (res) => {
       if (!res.ok) {
         // show error message from server when available
         try {

@@ -37,15 +37,22 @@ def index():
 def scan_now():
     if scan_lock.locked():
         return jsonify({"error": "Scan already in progress"}), 429
+    from flask import request
+    override_url = request.args.get("url", None)
     def do_scan():
         with scan_lock:
             try:
-                result = run_scan()
+                result = run_scan(override_url=override_url)
                 result["last_scan"] = time.strftime("%Y-%m-%d %H:%M:%S")
                 latest_result.update(result)
                 socketio.emit("scan_update", latest_result)
             except Exception as e:
                 print(f"[SCAN ERROR] {e}")
+                latest_result.update({
+                    "last_scan": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "scan_error": str(e),
+                })
+                socketio.emit("scan_update", latest_result)
     t = threading.Thread(target=do_scan)
     t.start()
     return jsonify({"status": "scan started"})

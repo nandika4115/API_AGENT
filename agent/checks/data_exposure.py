@@ -51,15 +51,24 @@ def scan_response(body, path, method):
 
     return findings
 
-def check_excessive_data_exposure(config):
+def check_excessive_data_exposure(config, endpoints=None):
     base_url = config["target"]["base_url"]
     findings = []
 
-    token = requests.post(
-        base_url + config["auth"]["login_url"],
-        json=config["auth"]["test_credentials"],
-        timeout=5
-    ).json().get("token")
+    token = None
+    try:
+        login_resp = requests.post(
+            base_url + config["auth"]["login_url"],
+            json=config["auth"]["test_credentials"],
+            timeout=5
+        )
+        if login_resp.status_code == 200:
+            try:
+                token = login_resp.json().get("token")
+            except Exception:
+                token = None
+    except Exception:
+        token = None
 
     if not token:
         findings.append({
@@ -73,13 +82,17 @@ def check_excessive_data_exposure(config):
 
     headers = {"Authorization": f"Bearer {token}"}
 
-    endpoints_to_check = [
-        ("/identity/api/v2/user/dashboard", "GET", None),
-        ("/workshop/api/shop/products", "GET", None),
-        ("/identity/api/v2/vehicle/vehicles", "GET", None),
-        ("/workshop/api/shop/orders/all", "GET", None),
-        ("/community/api/v2/community/posts/recent", "GET", None),
-    ]
+    # Use actual endpoints passed in, or fall back to crAPI defaults
+    if endpoints:
+        endpoints_to_check = [(ep["path"], ep["method"], None) for ep in endpoints[:10]]
+    else:
+        endpoints_to_check = [
+            ("/identity/api/v2/user/dashboard", "GET", None),
+            ("/workshop/api/shop/products", "GET", None),
+            ("/identity/api/v2/vehicle/vehicles", "GET", None),
+            ("/workshop/api/shop/orders/all", "GET", None),
+            ("/community/api/v2/community/posts/recent", "GET", None),
+        ]
 
     for path, method, payload in endpoints_to_check:
         try:
@@ -92,20 +105,20 @@ def check_excessive_data_exposure(config):
             if resp.status_code == 200:
                 try:
                     body = resp.json()
-                    found = scan_response(body, path, method)
-                    if found:
-                        findings.extend(found)
-                    else:
-                        findings.append({
-                            "check": "Excessive Data Exposure",
-                            "severity": "PASS",
-                            "endpoint": path,
-                            "method": method,
-                            "detail": "No sensitive fields detected in response"
-                        })
                 except Exception:
-                    pass
+                    continue  # skip non-JSON responses
+                found = scan_response(body, path, method)
+                if found:
+                    findings.extend(found)
+                else:
+                    findings.append({
+                        "check": "Excessive Data Exposure",
+                        "severity": "PASS",
+                        "endpoint": path,
+                        "method": method,
+                        "detail": "No sensitive fields detected in response"
+                    })
         except Exception:
-            pass
+            continue
 
     return findings
