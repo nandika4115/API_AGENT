@@ -8,7 +8,13 @@ from agent.checks.mass_assignment import check_mass_assignment
 from agent.checks.jwt_none import check_jwt_none_algorithm
 from agent.checks.ssrf import check_ssrf
 from agent.checks.data_exposure import check_excessive_data_exposure
-from agent.history import save_scan, get_new_findings, load_history
+from agent.history import (
+    save_scan,
+    get_new_findings,
+    get_remediated_findings,
+    get_remediation_status,
+    load_history,
+)
 from agent.discovery import discover_from_swagger
 
 def run_scan(override_url=None):
@@ -44,6 +50,8 @@ def run_scan(override_url=None):
 
     history = load_history()
     new_findings = get_new_findings(all_findings, history)
+    remediated_findings = get_remediated_findings(all_findings, history)
+    remediation_status = get_remediation_status(history + [{"findings": all_findings}])
 
     result = {
         "target": config["target"]["name"],
@@ -52,8 +60,8 @@ def run_scan(override_url=None):
         "endpoint_count": len(endpoints),
         "discovery_mode": "swagger" if discovered else "config",
         "new_findings": new_findings,
-        "remediated_findings": [],
-        "remediation_status": "n/a",
+        "remediated_findings": remediated_findings,
+        "remediation_status": remediation_status,
     }
 
     save_scan(result)

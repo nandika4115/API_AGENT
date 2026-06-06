@@ -7,8 +7,12 @@ HISTORY_FILE = "scan_history.json"
 def load_history():
     if not os.path.exists(HISTORY_FILE):
         return []
-    with open(HISTORY_FILE, "r") as f:
-        return json.load(f)
+    try:
+        with open(HISTORY_FILE, "r") as f:
+            data = json.load(f)
+            return data if isinstance(data, list) else []
+    except Exception:
+        return []
 
 def save_scan(result):
     history = load_history()
@@ -39,3 +43,71 @@ def get_new_findings(current_findings, history):
     return [f for f in current_findings
             if (f["check"], f["endpoint"], f["severity"]) in new
             and f["severity"] != "PASS"]
+
+
+def get_finding_key(finding):
+    return (finding["check"], finding["endpoint"], finding["severity"])
+
+
+def get_remediated_findings(current_findings, history):
+    if not history:
+        return []
+    last = history[-1]["findings"]
+    current_set = {get_finding_key(f) for f in current_findings}
+    return [
+        f for f in last
+        if get_finding_key(f) not in current_set and f["severity"] != "PASS"
+    ]
+
+
+def get_remediation_status(history):
+    if len(history) < 2:
+        return []
+
+    previous = {
+        get_finding_key(f): f
+        for f in history[-2].get("findings", [])
+        if f.get("severity") != "PASS"
+    }
+    current = {
+        get_finding_key(f): f
+        for f in history[-1].get("findings", [])
+        if f.get("severity") != "PASS"
+    }
+
+    status = []
+
+    for key, finding in previous.items():
+        if key not in current:
+            status.append({
+                "check": finding["check"],
+                "endpoint": finding["endpoint"],
+                "method": finding.get("method", "N/A"),
+                "severity": finding["severity"],
+                "status": "RESOLVED",
+                "detail": finding.get("detail", ""),
+            })
+
+    for key, finding in current.items():
+        if key not in previous:
+            status.append({
+                "check": finding["check"],
+                "endpoint": finding["endpoint"],
+                "method": finding.get("method", "N/A"),
+                "severity": finding["severity"],
+                "status": "NEW",
+                "detail": finding.get("detail", ""),
+            })
+
+    for key in sorted(set(previous.keys()) & set(current.keys())):
+        finding = current[key]
+        status.append({
+            "check": finding["check"],
+            "endpoint": finding["endpoint"],
+            "method": finding.get("method", "N/A"),
+            "severity": finding["severity"],
+            "status": "PERSISTS",
+            "detail": finding.get("detail", ""),
+        })
+
+    return status

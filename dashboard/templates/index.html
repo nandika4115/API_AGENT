@@ -163,6 +163,7 @@
     document.getElementById("discovery-mode").textContent = data.discovery_mode || "—";
 
     renderTable();
+    renderRemediation(data);
   }
 
   function renderTable() {
@@ -241,6 +242,33 @@
   function exportPDF() {
   window.location.href = "/api/export/pdf";
   }
+
+  function renderRemediation(data) {
+    const items = data.remediation_status || [];
+    const tbody = document.getElementById("remediation-body");
+    if (!tbody) return;
+
+    if (!items.length) {
+      tbody.innerHTML = `<tr><td colspan="4" class="empty">Run at least 2 scans to see remediation tracking</td></tr>`;
+      return;
+    }
+
+    const colors = { NEW: "#ff8c00", RESOLVED: "#4caf50", PERSISTS: "#ff4d4d" };
+    const icons = { NEW: "🆕", RESOLVED: "✅", PERSISTS: "⚠️" };
+
+    tbody.innerHTML = items.map(r => `
+      <tr>
+        <td style="padding:13px 16px;border-bottom:1px solid #1e2130;font-size:.875rem;">
+          <span style="color:${colors[r.status]};font-weight:600;">${icons[r.status]} ${r.status}</span>
+        </td>
+        <td style="padding:13px 16px;border-bottom:1px solid #1e2130;font-size:.875rem;">${r.check}</td>
+        <td style="padding:13px 16px;border-bottom:1px solid #1e2130;font-size:.875rem;"><code>${r.endpoint}</code></td>
+        <td style="padding:13px 16px;border-bottom:1px solid #1e2130;font-size:.875rem;">
+          <span class="badge ${r.severity}">${r.severity}</span>
+        </td>
+      </tr>
+    `).join("");
+  }
 </script>
 <div style="padding: 0 32px 16px; display:flex; justify-content:space-between; align-items:center;">
   <h2 style="font-size:1rem; color:#888;">Scan History</h2>
@@ -288,5 +316,23 @@
     fetch("/api/history").then(r => r.json()).then(renderHistory);
   });
 </script>
+<div style="padding: 0 32px 16px; display:flex; justify-content:space-between; align-items:center;">
+  <h2 style="font-size:1rem; color:#888;">Remediation Tracker</h2>
+  <span style="font-size:0.8rem; color:#555;">Changes since last scan</span>
+</div>
+
+<table id="remediation-table" style="width: calc(100% - 64px); margin: 0 32px 48px; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="background:#1a1d27;color:#888;font-size:.75rem;text-transform:uppercase;padding:12px 16px;text-align:left;border-bottom:1px solid #2a2d3e;">Status</th>
+      <th style="background:#1a1d27;color:#888;font-size:.75rem;text-transform:uppercase;padding:12px 16px;text-align:left;border-bottom:1px solid #2a2d3e;">Check</th>
+      <th style="background:#1a1d27;color:#888;font-size:.75rem;text-transform:uppercase;padding:12px 16px;text-align:left;border-bottom:1px solid #2a2d3e;">Endpoint</th>
+      <th style="background:#1a1d27;color:#888;font-size:.75rem;text-transform:uppercase;padding:12px 16px;text-align:left;border-bottom:1px solid #2a2d3e;">Severity</th>
+    </tr>
+  </thead>
+  <tbody id="remediation-body">
+    <tr><td colspan="4" class="empty">Run at least 2 scans to see remediation tracking</td></tr>
+  </tbody>
+</table>
 </body>
 </html>
