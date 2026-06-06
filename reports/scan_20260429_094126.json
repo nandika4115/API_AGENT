@@ -1,0 +1,421 @@
+{
+  "target": "crAPI",
+  "findings": [
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Correctly returned 404 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/products",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders",
+      "method": "GET",
+      "detail": "Correctly returned 500 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/community/api/v2/community/posts/recent",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/vehicle/vehicles",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders/all",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/admin/users",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Insecure Endpoint",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic/mechanic_report",
+      "method": "GET",
+      "detail": "Correctly returned 401 without token"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 404"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 404"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 404"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/products",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/products",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/products",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 500"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 500"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 500"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/community/api/v2/community/posts/recent",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/community/api/v2/community/posts/recent",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/community/api/v2/community/posts/recent",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/vehicle/vehicles",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/vehicle/vehicles",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/vehicle/vehicles",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders/all",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders/all",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders/all",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/admin/users",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/admin/users",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/admin/users",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic/mechanic_report",
+      "method": "GET",
+      "detail": "Correctly rejected expired_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic/mechanic_report",
+      "method": "GET",
+      "detail": "Correctly rejected malformed_token with 401"
+    },
+    {
+      "check": "Broken Authentication",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/mechanic/mechanic_report",
+      "method": "GET",
+      "detail": "Correctly rejected empty_bearer with 401"
+    },
+    {
+      "check": "Rate Limit Bypass",
+      "severity": "HIGH",
+      "endpoint": "/identity/api/auth/login",
+      "method": "POST",
+      "detail": "Sent 20 requests, never got 429. Statuses: [401]"
+    },
+    {
+      "check": "Parameter Tampering",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Returned 465 for tampered request"
+    },
+    {
+      "check": "Parameter Tampering",
+      "severity": "MEDIUM",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Server accepted tampered payload and returned 200"
+    },
+    {
+      "check": "BOLA",
+      "severity": "CRITICAL",
+      "endpoint": "/workshop/api/shop/orders/{order_id}",
+      "method": "GET",
+      "detail": "Attacker accessed victim order ID 7 \u2014 IDOR confirmed"
+    },
+    {
+      "check": "BOLA",
+      "severity": "CRITICAL",
+      "endpoint": "/workshop/api/shop/orders/all",
+      "method": "GET",
+      "detail": "Attacker retrieved all orders without restriction"
+    },
+    {
+      "check": "BOLA",
+      "severity": "CRITICAL",
+      "endpoint": "/identity/api/v2/vehicle/{uuid}/location",
+      "method": "GET",
+      "detail": "Attacker accessed victim vehicle location: 200 \u2014 GPS data exposed"
+    },
+    {
+      "check": "Info Leak (500)",
+      "severity": "MEDIUM",
+      "endpoint": "/workshop/api/shop/orders",
+      "method": "GET",
+      "detail": "Returns 500 without auth \u2014 server error exposed"
+    },
+    {
+      "check": "Mass Assignment",
+      "severity": "PASS",
+      "endpoint": "/identity/api/auth/signup",
+      "method": "POST",
+      "detail": "Extra fields ignored \u2014 admin role not granted"
+    },
+    {
+      "check": "Mass Assignment",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/admin/users",
+      "method": "GET",
+      "detail": "Mass-assigned account accessed admin endpoint: 404"
+    },
+    {
+      "check": "JWT None Algorithm",
+      "severity": "CRITICAL",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Server accepted token with alg:none \u2014 signature verification bypassed"
+    },
+    {
+      "check": "JWT None Algorithm",
+      "severity": "CRITICAL",
+      "endpoint": "/workshop/api/shop/products",
+      "method": "GET",
+      "detail": "Server accepted token with alg:none \u2014 signature verification bypassed"
+    },
+    {
+      "check": "JWT None Algorithm",
+      "severity": "CRITICAL",
+      "endpoint": "/identity/api/v2/vehicle/vehicles",
+      "method": "GET",
+      "detail": "Server accepted token with alg:none \u2014 signature verification bypassed"
+    },
+    {
+      "check": "SSRF",
+      "severity": "HIGH",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Server attempted to fetch http://127.0.0.1 \u2014 SSRF confirmed (connection failed but request was made)"
+    },
+    {
+      "check": "SSRF",
+      "severity": "HIGH",
+      "endpoint": "/workshop/api/merchant/contact_mechanic",
+      "method": "POST",
+      "detail": "Server attempted to fetch http://169.254.169.254/latest/meta-data/ \u2014 SSRF confirmed (connection failed but request was made)"
+    },
+    {
+      "check": "Excessive Data Exposure",
+      "severity": "MEDIUM",
+      "endpoint": "/identity/api/v2/user/dashboard",
+      "method": "GET",
+      "detail": "Internal field 'role' exposed in response"
+    },
+    {
+      "check": "Excessive Data Exposure",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/products",
+      "method": "GET",
+      "detail": "No sensitive fields detected in response"
+    },
+    {
+      "check": "Excessive Data Exposure",
+      "severity": "PASS",
+      "endpoint": "/identity/api/v2/vehicle/vehicles",
+      "method": "GET",
+      "detail": "No sensitive fields detected in response"
+    },
+    {
+      "check": "Excessive Data Exposure",
+      "severity": "PASS",
+      "endpoint": "/workshop/api/shop/orders/all",
+      "method": "GET",
+      "detail": "No sensitive fields detected in response"
+    },
+    {
+      "check": "Excessive Data Exposure",
+      "severity": "PASS",
+      "endpoint": "/community/api/v2/community/posts/recent",
+      "method": "GET",
+      "detail": "No sensitive fields detected in response"
+    }
+  ],
+  "last_scan": "2026-04-29 09:37:36",
+  "new_findings": [],
+  "scan_number": 81
+}

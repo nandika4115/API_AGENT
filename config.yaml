@@ -1,0 +1,67 @@
+target:
+  base_url: "http://localhost:8888"
+  name: "crAPI"
+
+auth:
+  login_url: "/identity/api/auth/login"
+  test_credentials:
+    email: "test2@example.com"
+    password: "Testpass@123"
+  attacker_credentials:
+    email: "attacker@example.com"
+    password: "Testpass@123"
+
+scan:
+  interval_seconds: 60
+
+endpoints:
+  # --- PUBLIC (no auth needed) ---
+  - path: "/identity/api/auth/login"
+    method: POST
+    auth_required: false
+
+  - path: "/identity/api/auth/signup"
+    method: POST
+    auth_required: false
+
+  # --- PROTECTED (should require auth) ---
+  - path: "/identity/api/v2/user/dashboard"
+    method: GET
+    auth_required: true
+
+  - path: "/workshop/api/shop/products"
+    method: GET
+    auth_required: true
+
+  - path: "/workshop/api/shop/orders"
+    method: GET
+    auth_required: true
+
+  - path: "/community/api/v2/community/posts/recent"
+    method: GET
+    auth_required: true
+
+  - path: "/workshop/api/mechanic"
+    method: GET
+    auth_required: true
+
+  - path: "/identity/api/v2/vehicle/vehicles"
+    method: GET
+    auth_required: true
+
+  - path: "/workshop/api/merchant/contact_mechanic"
+    method: POST
+    auth_required: true
+
+  # --- KNOWN VULNERABLE in crAPI (BOLA/IDOR targets) ---
+  - path: "/workshop/api/shop/orders/all"
+    method: GET
+    auth_required: true
+
+  - path: "/identity/api/v2/admin/users"
+    method: GET
+    auth_required: true
+
+  - path: "/workshop/api/mechanic/mechanic_report"
+    method: GET
+    auth_required: true
